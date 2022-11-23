@@ -1,13 +1,19 @@
 package com.anuar81.ryckandmortytestapp.ui.home.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.anuar81.ryckandmortytestapp.MainActivity
 import com.anuar81.ryckandmortytestapp.R
 import com.anuar81.ryckandmortytestapp.core.base.BaseFragment
 import com.anuar81.ryckandmortytestapp.core.delegates.viewBinding
 import com.anuar81.ryckandmortytestapp.core.extensions.observe
+import com.anuar81.ryckandmortytestapp.core.extensions.onNavigate
 import com.anuar81.ryckandmortytestapp.databinding.FragmentHomeBinding
 import com.anuar81.ryckandmortytestapp.domain.character.CharacterData
 import com.anuar81.ryckandmortytestapp.ui.home.adapter.HomeAdapter
@@ -15,7 +21,8 @@ import com.anuar81.ryckandmortytestapp.ui.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home), HomeAdapter.CharacterObserver {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home),
+    HomeAdapter.CharacterObserver {
 
     override val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     override val viewModel: HomeViewModel by viewModels()
@@ -30,16 +37,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
+        binding.extendedFab.setOnClickListener { viewModel.navigatesToSearch() }
     }
 
     override fun addViewModelObservables() = with(viewModel) {
+        observe(navigateTo) { onNavigate(it) }
         observe(showError) {
             // TODO: show error on view 
         }
-        observe(characterList) {
-            adapter.characterList = it
-            adapter.notifyDataSetChanged()
-        }
+        observe(characterList) { updateAdapter(it) }
     }
 
     private fun setupRecycler() {
@@ -48,8 +54,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         binding.recyclerHome.adapter = adapter
     }
 
-    override fun itemListener(character: CharacterData) {
-        TODO("Not yet implemented")
+    private fun updateAdapter(characterList: List<CharacterData>) {
+        adapter.characterList = characterList
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun characterListener(character: CharacterData) {
+
     }
 
 

@@ -17,4 +17,13 @@ class CharacterAdapter @Inject constructor(
             NetworkResult.OnFailure(e)
         }
     }
+
+    override suspend fun searchCharacterByName(name: String): NetworkResult<List<CharacterData>> {
+        return try {
+            val response = characterService.searchCharacterByName(name)
+            return NetworkResult.OnSuccess(response.results)
+        } catch(e: Exception) {
+            NetworkResult.OnFailure(e)
+        }
+    }
 }

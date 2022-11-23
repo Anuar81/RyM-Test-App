@@ -5,4 +5,5 @@ import com.anuar81.ryckandmortytestapp.domain.character.CharacterData
 
 interface CharacterDataSource {
     suspend fun getCharacterList() : NetworkResult<List<CharacterData>>
+    suspend fun searchCharacterByName(name: String) : NetworkResult<List<CharacterData>>
 }

@@ -4,6 +4,7 @@ import com.anuar81.ryckandmortytestapp.data.config.retrofit.adapters.CharacterAd
 import com.anuar81.ryckandmortytestapp.data.config.retrofit.services.CharacterService
 import com.anuar81.ryckandmortytestapp.data.datasource.CharacterDataSource
 import com.anuar81.ryckandmortytestapp.data.repository.HomeRepository
+import com.anuar81.ryckandmortytestapp.data.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,12 @@ object SingletonModule {
     @Singleton
     fun providesHomeRepository(characterDataSource: CharacterDataSource) : HomeRepository {
         return HomeRepository(characterDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSearchRepository(characterDataSource: CharacterDataSource) : SearchRepository {
+        return SearchRepository(characterDataSource)
     }
 
     @Provides

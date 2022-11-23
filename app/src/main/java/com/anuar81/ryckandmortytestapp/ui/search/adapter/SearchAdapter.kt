@@ -1,4 +1,4 @@
-package com.anuar81.ryckandmortytestapp.ui.home.adapter
+package com.anuar81.ryckandmortytestapp.ui.search.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +9,14 @@ import com.anuar81.ryckandmortytestapp.R
 import com.anuar81.ryckandmortytestapp.databinding.ItemCharacterBinding
 import com.anuar81.ryckandmortytestapp.domain.character.CharacterData
 
-class HomeAdapter(private val listener: CharacterObserver) :
-    RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class SearchAdapter(private val listener: CharacterObserver) :
+    RecyclerView.Adapter<SearchAdapter.HomeViewHolder>() {
 
     var characterList: List<CharacterData> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
         return HomeViewHolder(view)
     }
 
